@@ -1,0 +1,78 @@
+body {
+    background-image: url('pics/photo1703179251.jpeg');
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+#loginDiv {
+    display: none;
+}
+#changeToSignupBtn {
+    display: none;
+}
+#actionStats {
+    text-align: center;
+}
+#changePasswordDiv {
+    display: none;
+    padding-top: 20px;
+    padding-bottom: 30px;
+}
+.input1 {
+   margin-top: 20px;
+   margin-bottom: 20px;
+   margin-left: 10px;
+   background-color: rgb(165, 22, 194);
+   font-weight: bold;
+   height: 20px;
+   font-size: 15px;
+   color: aqua;
+   text-align: center;
+}
+#signupBtn,#loginBtn {
+    margin-top: 0px;
+    margin-left: 65px;
+    width: 70px;
+    height: 20px;
+    border-radius: 4px;
+    background-color: rgba(243, 207, 4, 0.952);
+}
+#hidePasswordBtn {
+    display: none;
+}
+#showPasswordBtn,#hidePasswordBtn,#changePasswordBtn,#completeChangingPasswordBtn {
+    width: 150px;
+    height: 40px;
+    border-radius: 4px;
+    background-color: rgba(243, 207, 4, 0.952);
+}
+#changePasswordBtn {
+    margin-bottom: 5px;
+}
+.changeItems {
+    margin-top: 35px;
+    margin-bottom: 20px;
+    text-align: center;
+    border-radius: 15px;
+    background-color: black;
+    color: white;
+    font-weight: bold;
+    font-size: 15px;
+    margin-right: 10px;
+}
+#signupDiv {
+
+}
+#holder {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    /*
+    padding-top: 200px;
+    padding-bottom: 250px;
+    */
+    padding-left: 100px;
+    padding-right: 80px;
+    opacity: 60%;
+}
