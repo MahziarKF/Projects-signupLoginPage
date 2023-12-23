@@ -39,11 +39,22 @@ body {
 #hidePasswordBtn {
     display: none;
 }
-#showPasswordBtn,#hidePasswordBtn,#changePasswordBtn,#completeChangingPasswordBtn {
+#showPasswordBtn,#hidePasswordBtn,#changePasswordBtn,#completeChangingPasswordBtn,#autoLoginBtnOn,#autoLoginBtnOff,#deleteAccountBtn {
     width: 150px;
     height: 40px;
     border-radius: 4px;
     background-color: rgba(243, 207, 4, 0.952);
+}
+#autoLoginBtnOn {
+    background-color: green;
+}
+#autoLoginBtnOff {
+    display: none;
+    background-color: red;
+}
+#deleteAccountBtn {
+    background-color: red;
+    text-decoration: line-through;
 }
 #changePasswordBtn {
     margin-bottom: 5px;

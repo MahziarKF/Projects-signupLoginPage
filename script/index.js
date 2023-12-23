@@ -16,6 +16,13 @@ const holder = document.getElementById('holder')
 let p1 = {
 
 }
+loadAccount()
+function loadAccount() {
+    if (localStorage.getItem('personUsername') != null && localStorage.getItem('autoLogin') === 'on') {
+        renderProfile()
+        alert('You have been logged back in by default signOut to disable this option ')
+    }
+}
 function Person(username,password,email) {
     this.username = username
     this.password = password
@@ -102,6 +109,9 @@ function renderProfile() {
         <button onclick='hidePassword()' id='hidePasswordBtn'>HIDE PASSWORD</button>
         <br><button id='changePasswordBtn' onclick='changePassword()'>CHANGE PASSWORD</button>
         <p id='emailDispay'>Email: ${localStorage.getItem('personEmail')}</p>
+        <p id='autoLoginStats'>Auto Login Stats : ${localStorage.getItem('autoLogin')}</p><br>
+        <button id='autoLoginBtnOn' onclick='autoLoginOn()'>AUTO LOGIN</button><button id='autoLoginBtnOff' onclick='autoLoginOff()'>AUTO LOGIN</button><br>
+        <button id='deleteAccountBtn' onclick='deleteAccount()'>DELETE ACCOUNT</button>
     `
 }
 function revalPassword() {
@@ -231,5 +241,28 @@ function passwordChecked3() {
     } else {
         passwordSecurityMissing(0)
         return false
+    }
+}
+function autoLoginOn() {
+    localStorage.setItem('autoLogin', 'on')
+    document.getElementById('autoLoginBtnOff').style.display = 'inline-block'
+    document.getElementById('autoLoginBtnOn').style.display = 'none'
+    document.getElementById('autoLoginStats').textContent = 'Auto Login Stats : on'
+}
+function autoLoginOff() {
+    localStorage.setItem('autoLogin', 'off')
+    document.getElementById('autoLoginBtnOff').style.display = 'none'
+    document.getElementById('autoLoginBtnOn').style.display = 'inline-block'
+    document.getElementById('autoLoginStats').textContent = 'Auto Login Stats : off'
+}
+function deleteAccount() {
+    let randomNumber = Math.floor(Math.random()*10000)
+    let confirmationNumber = String(randomNumber)
+    let deleteAccountConfirm = prompt(`please Enter The Following Randomly generator : ${confirmationNumber}`)
+    if (deleteAccountConfirm === confirmationNumber) {
+        localStorage.clear()
+        location.reload()
+    } else {
+        alert("Wrong Confirmation Number")
     }
 }
