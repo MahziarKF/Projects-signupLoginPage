@@ -20,8 +20,16 @@ loadAccount()
 function loadAccount() {
     if (localStorage.getItem('personUsername') != null && localStorage.getItem('autoLogin') === 'on') {
         renderProfile()
-        alert('You have been logged back in by default signOut to disable this option ')
+        alert('you have been logged back into your account (You can disable this feature in profile settings)')
     }
+    if (localStorage.getItem('autoLogin') === 'on') {
+        document.getElementById('autoLoginBtnOn').style.display = 'none'
+        document.getElementById('autoLoginBtnOff').style.display = 'inline-block'
+    }
+    // if (localStorage.getItem('autoLogin') === null || localStorage.getItem('autoLogin') === undefined) {
+    //     let el = document.getElementById('autoLoginStats')
+    //     el.innerHTML = `Not Selected`
+    // }
 }
 function Person(username,password,email) {
     this.username = username
@@ -64,7 +72,7 @@ signupBtn.addEventListener('click', () => {
             alert("The email you entered already exists.\n Please log in or try another email.")
         }
     } else {
-        alert("This username is currently underuse.")
+        alert("This username is currently under use.")
     }
 })
 loginBtn.addEventListener('click', () => {
@@ -108,7 +116,7 @@ function renderProfile() {
         <button onclick='revalPassword()' id='showPasswordBtn'>SHOW PASSWORD</button>
         <button onclick='hidePassword()' id='hidePasswordBtn'>HIDE PASSWORD</button>
         <br><button id='changePasswordBtn' onclick='changePassword()'>CHANGE PASSWORD</button>
-        <p id='emailDispay'>Email: ${localStorage.getItem('personEmail')}</p>
+        <p id='emailDisplay'>Email: ${localStorage.getItem('personEmail')}</p>
         <p id='autoLoginStats'>Auto Login Stats : ${localStorage.getItem('autoLogin')}</p><br>
         <button id='autoLoginBtnOn' onclick='autoLoginOn()'>AUTO LOGIN</button><button id='autoLoginBtnOff' onclick='autoLoginOff()'>AUTO LOGIN</button><br>
         <button id='deleteAccountBtn' onclick='deleteAccount()'>DELETE ACCOUNT</button>
@@ -134,40 +142,45 @@ function fromProfileToChangePassword() {
             <input class="input1" type="text" id="oldPassword" value="oldPassword"><br>
             <input class="input1" type="text" id="newPassword" value="newPassword"><br>
             <input class="input1" type="text" id="newPasswordConfirm" value="newPasswordConfirm"><br>
-            <button id='completeChangingPasswordBtn' onclick='checkAndConfrimPasswordChange()'>COMPLETE</button>
+            <button id='completeChangingPasswordBtn' onclick='checkAndConfirmAndChangePassword()'>COMPLETE</button>
         </div>
     `
     document.getElementById('changePasswordDiv').style.display = 'inline-block'
 }
-function checkAndConfrimPasswordChange() {
+function checkAndConfirmAndChangePassword() {
     let oldPassword = document.getElementById('oldPassword')
     let newPasswordConfirm = document.getElementById('newPassword')
     let newPassword = document.getElementById('newPasswordConfirm')
-    if (oldPassword.value === localStorage.getItem('personPassword')){
-        if (newPassword.value === newPasswordConfirm.value){
-                if (passwordChecked2() === true && passwordChecked3() === true) {
-                alert('Are you sure about changing your password?')
-                let actionConfirm = confirm('Please Click OK to confirm password change or click cancel to cancel')
-                if (actionConfirm === true) {
-                    changeOldToNewPassword(newPassword.value)
-                } else {
-                    let reload = confirm('opreation canceled, reload page?')
-                    if (reload === true) {
-                        location.reload()
-                    } 
+    if (oldPassword.value != newPassword.value || oldPassword.value != newPasswordConfirm.value) {
+        if (oldPassword.value === localStorage.getItem('personPassword')){
+            if (newPassword.value === newPasswordConfirm.value){
+                    if (passwordChecked2() === true && passwordChecked3() === true) {
+                    alert('Are you sure about changing your password?')
+                    let actionConfirm = confirm('Please Click OK to confirm password change or click cancel to cancel')
+                    if (actionConfirm === true) {
+                        changeOldToNewPassword(newPassword.value)
+                    } else {
+                        let reload = confirm('operation canceled, reload page?')
+                        if (reload === true) {
+                            location.reload()
+                        } 
+                    }
                 }
-            }
+            } else {
+                alert('new passwords do not match!')
+            } 
         } else {
-            alert('new passwords do not match!')
-        } 
+            alert('old password is incorrect')
+        }
     } else {
-        alert('old password is incorrect')
+        alert('old and new passwords should be different!')
     }
 }
 function changeOldToNewPassword(password) {
     JSON.stringify(password)
     localStorage.setItem('personPassword', password)
     alert("your password has been changed, for security reason page will be refreshed please login again.")
+    localStorage.setItem('autoLogin', 'off')
     location.reload()
 }
 function passwordChecked() {
@@ -258,9 +271,10 @@ function autoLoginOff() {
 function deleteAccount() {
     let randomNumber = Math.floor(Math.random()*10000)
     let confirmationNumber = String(randomNumber)
-    let deleteAccountConfirm = prompt(`please Enter The Following Randomly generator : ${confirmationNumber}`)
+    let deleteAccountConfirm = prompt(`please Enter The Following Randomly generated number : ${confirmationNumber}`)
     if (deleteAccountConfirm === confirmationNumber) {
         localStorage.clear()
+        alert('Account Successfully Deleted')
         location.reload()
     } else {
         alert("Wrong Confirmation Number")

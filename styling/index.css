@@ -46,11 +46,11 @@ body {
     background-color: rgba(243, 207, 4, 0.952);
 }
 #autoLoginBtnOn {
-    background-color: green;
+    background-color: red;
 }
 #autoLoginBtnOff {
     display: none;
-    background-color: red;
+    background-color: green;
 }
 #deleteAccountBtn {
     background-color: red;
