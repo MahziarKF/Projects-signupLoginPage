@@ -13,6 +13,8 @@ const loginDiv = document.getElementById('loginDiv')
 const changeDiv = document.getElementById('changeDiv')
 const actionStats = document.getElementById('actionStats')
 const holder = document.getElementById('holder')
+const infoImg = document.getElementById('infoImg')
+const link = document.getElementById('link')
 let p1 = {
 
 }
@@ -36,11 +38,35 @@ function Person(username,password,email) {
     this.password = password
     this.email = email
 }
+infoImg.addEventListener('mouseover', () => {
+    infoImg.style.animationName = 'expand1'
+    infoImg.style.animationDuration = '1s'
+    infoImg.style.width = '60px'
+    infoImg.style.height = '60px'
+})
+infoImg.addEventListener('mouseout', () => {
+    infoImg.style.animationName = 'expand2'
+    infoImg.style.animationDuration = '1s'
+    infoImg.style.width = '50px'
+    infoImg.style.height = '50px'
+})
+link.addEventListener('click', () => {
+    alert(`
+    FIXED :
+    - auto login not rendering correctly (auto loggin showing null,c)
+    - change password bug (password changing to old password)
+    - auto login not turning off after password change
+    - changed some message
+    - changed delete account message
+    - added update info option (this menu)
+    Last Update : 25 December
+    `)
+})
 signupBtn.addEventListener('click', () => {
     if (userEntryNew.value != localStorage.getItem('personUsername')) {
         if (emailEntry.value != localStorage.getItem('personEmail')){
             if (emailEntry.value != null || emailEntry.value != undefined) {
-                if (userEntryNew.value != null || userEntryNew.vlaue == undefined) {
+                if (userEntryNew.value != null || userEntryNew.value == undefined) {
                     if (passEntryNew.value === passEntryNewConfirm.value) {
                             if (passwordChecked() === true){
                             p1 = new Person(userEntryNew.value,passEntryNew.value,emailEntry.value)
@@ -116,11 +142,29 @@ function renderProfile() {
         <button onclick='revalPassword()' id='showPasswordBtn'>SHOW PASSWORD</button>
         <button onclick='hidePassword()' id='hidePasswordBtn'>HIDE PASSWORD</button>
         <br><button id='changePasswordBtn' onclick='changePassword()'>CHANGE PASSWORD</button>
-        <p id='emailDisplay'>Email: ${localStorage.getItem('personEmail')}</p>
+        <p id='emailDisplay'>Email : ${localStorage.getItem('personEmail')}</p>
+        <button onclick='changeEmail()' id='changeEmailBtn'>CHANGE EMAIL</button><br>
         <p id='autoLoginStats'>Auto Login Stats : ${localStorage.getItem('autoLogin')}</p><br>
         <button id='autoLoginBtnOn' onclick='autoLoginOn()'>AUTO LOGIN</button><button id='autoLoginBtnOff' onclick='autoLoginOff()'>AUTO LOGIN</button><br>
         <button id='deleteAccountBtn' onclick='deleteAccount()'>DELETE ACCOUNT</button>
     `
+}
+function changeEmail() {
+    let passInput = prompt('Enter your password to continue.')
+    if (passInput === localStorage.getItem('personPassword')) {
+        let emailInput = prompt('Enter new email please.')
+        let actionConfirm2 = confirm('Are you sure you want to change your email ?')
+        if (actionConfirm2 === true) {
+            alert('email successfully changed')
+            localStorage.setItem("personEmail", emailInput)
+            document.getElementById('emailDisplay').textContent = `Email :${localStorage.getItem('personEmail')}`
+            location.reload();
+        } else {
+            alert('email changing process canceled by user')
+        }
+    } else {
+        alert('wrong password')
+    }
 }
 function revalPassword() {
     document.getElementById('hidePasswordBtn').style.display = 'inline-block'
