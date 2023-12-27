@@ -52,14 +52,11 @@ infoImg.addEventListener('mouseout', () => {
 })
 link.addEventListener('click', () => {
     alert(`
-    FIXED :
-    - auto login not rendering correctly (auto loggin showing null,c)
-    - change password bug (password changing to old password)
-    - auto login not turning off after password change
-    - changed some message
-    - changed delete account message
-    - added update info option (this menu)
-    Last Update : 25 December
+    ADDED : 
+    - added new username rules
+    - added empty or null detector for password and username
+    -
+    Last Update : 27 December
     `)
 })
 signupBtn.addEventListener('click', () => {
@@ -68,7 +65,7 @@ signupBtn.addEventListener('click', () => {
             if (emailEntry.value != null || emailEntry.value != undefined) {
                 if (userEntryNew.value != null || userEntryNew.value == undefined) {
                     if (passEntryNew.value === passEntryNewConfirm.value) {
-                            if (passwordChecked() === true){
+                            if (passwordChecked() === true && usernameChecked() === true){
                             p1 = new Person(userEntryNew.value,passEntryNew.value,emailEntry.value)
                             // let p1 = {
                             //     username: userEntryNew.value,
@@ -108,6 +105,35 @@ loginBtn.addEventListener('click', () => {
         alert("wrong username or password")
     }
 })
+function usernameChecked() {
+    username = userEntryNew.value
+    if (username.length >= 5) {
+        if (userEntryNew.value != undefined || userEntryNew.value != null) {
+            if (userEntryNew.value[0] != 0 && userEntryNew.value[0] != 1 && userEntryNew.value[0] != 2 && userEntryNew.value[0] != 3 && userEntryNew.value[0] != 5 && userEntryNew.value[0] != 6 && userEntryNew.value[0] != 7 && userEntryNew.value[0] != 8 && userEntryNew.value[0] != 9 && userEntryNew.value[0] != 4) {
+                return true
+            } else {
+                usernameSecurityMissing(2)
+                return false
+            }
+        } else {
+            usernameSecurityMissing(1)
+            return false
+        }
+    } else {2
+        usernameSecurityMissing(0)
+        return false
+    }
+    
+}
+function usernameSecurityMissing(type) {
+    if (type === 0) {
+        alert('Username must be 5 letters or longer')
+    } else if (type === 1) { 
+        alert('Username field cannot be empty')
+    } else if (type === 2) {
+        alert('Username cannot start with a number')
+    }
+}
 changeToLoginBtn.addEventListener('click', function() {
     signupDiv.style.display = 'none'
     loginDiv.style.display = 'inline-block'
@@ -229,10 +255,15 @@ function changeOldToNewPassword(password) {
 }
 function passwordChecked() {
     let pass = passEntryNew.value
-    if (pass.length > 8) {
+    if (passEntryNew.value != null || passEntryNew.value != undefined) {
         if (checkIfSymbolsAreIncluded(passEntryNew.value) === true) {
             if (hasNumber(passEntryNew.value) === true) {
-                return true
+                if (pass.length > 8) {
+                    return true
+                } else {
+                    passwordSecurityMissing(3)
+                    return false
+                }
             } else {
                 passwordSecurityMissing(2)
                 return false
@@ -252,11 +283,13 @@ function checkIfSymbolsAreIncluded(text) {
 }
 function passwordSecurityMissing(type) {
     if (type === 0) {
-        alert('your password must be 8 characters or longer')
+        alert('Password field is empty!')
     } else if (type === 1) {
         alert('your password must include a symbol (! @ # $ % ^ & * .)')
     } else if (type === 2) {
-        alert('your password must include atleast 1 number')
+        alert('your password must include 1 number or more')
+    } else if (type === 3) {
+        alert('your password must be 8 characters or longer')
     }
 }
 function hasNumber(text) {
